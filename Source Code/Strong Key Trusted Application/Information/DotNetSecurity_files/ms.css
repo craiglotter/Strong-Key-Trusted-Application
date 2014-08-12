@@ -1,0 +1,63 @@
+A:visited {
+	COLOR: #039
+}
+A:active {
+	COLOR: #039
+}
+A:link {
+	COLOR: #039
+}
+A:hover {
+	COLOR: #f30
+}
+#header {
+	PADDING-RIGHT: 0px; BACKGROUND-POSITION: left top; PADDING-LEFT: 0px; BACKGROUND-IMAGE: url(http://weblogs.asp.net/skins/hover/images/topback.gif); PADDING-BOTTOM: 0px; COLOR: #000; PADDING-TOP: 0px; BACKGROUND-REPEAT: no-repeat; BACKGROUND-COLOR: #039
+}
+#title {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; HEIGHT: 60px
+}
+#title H1 {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 10px; FONT-WEIGHT: bold; FONT-SIZE: 1.6em; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 10px
+}
+#header P {
+	FONT-SIZE: 0.9em; BACKGROUND-COLOR: #69c
+}
+#sidebar-a {
+	BORDER-RIGHT: #999 1px solid; BORDER-BOTTOM: #999 1px solid; BACKGROUND-COLOR: #f1f1f1
+}
+#sidebar-a A:active {
+	BORDER-RIGHT: #f1f1f1 1px solid; BORDER-TOP: #f1f1f1 1px solid; BORDER-LEFT: #f1f1f1 1px solid; COLOR: #000; BORDER-BOTTOM: #f1f1f1 1px solid
+}
+#sidebar-a A:visited {
+	BORDER-RIGHT: #f1f1f1 1px solid; BORDER-TOP: #f1f1f1 1px solid; BORDER-LEFT: #f1f1f1 1px solid; COLOR: #000; BORDER-BOTTOM: #f1f1f1 1px solid
+}
+#sidebar-a A:link {
+	BORDER-RIGHT: #f1f1f1 1px solid; BORDER-TOP: #f1f1f1 1px solid; BORDER-LEFT: #f1f1f1 1px solid; COLOR: #000; BORDER-BOTTOM: #f1f1f1 1px solid
+}
+#sidebar-a A:hover {
+	BORDER-RIGHT: #999 1px solid; BORDER-TOP: #999 1px solid; BORDER-LEFT: #999 1px solid; BORDER-BOTTOM: #999 1px solid; BACKGROUND-COLOR: #ccc
+}
+.postsubhead {
+	BACKGROUND-POSITION: 0px 0px; BACKGROUND-IMAGE: url(http://weblogs.asp.net/skins/hover/images/dashed.gif); COLOR: #393; BACKGROUND-REPEAT: repeat-x; BACKGROUND-COLOR: #ffffcc
+}
+.postsubhead A:link {
+	PADDING-RIGHT: 10px; MARGIN-LEFT: -3px; COLOR: #393; BACKGROUND-COLOR: #ffffff
+}
+.postsubhead A:visited {
+	PADDING-RIGHT: 10px; MARGIN-LEFT: -3px; COLOR: #393; BACKGROUND-COLOR: #ffffff
+}
+#masthead {
+	BACKGROUND: #f1f1f1; COLOR: #333; BORDER-BOTTOM: #999 1px solid
+}
+#masthead A:link {
+	BORDER-RIGHT: #f1f1f1 1px solid; BORDER-TOP: #f1f1f1 1px solid; BORDER-LEFT: #f1f1f1 1px solid; COLOR: #000; BORDER-BOTTOM: #f1f1f1 1px solid
+}
+#masthead A:visited {
+	BORDER-RIGHT: #f1f1f1 1px solid; BORDER-TOP: #f1f1f1 1px solid; BORDER-LEFT: #f1f1f1 1px solid; COLOR: #000; BORDER-BOTTOM: #f1f1f1 1px solid
+}
+#masthead A:active {
+	BORDER-RIGHT: #f1f1f1 1px solid; BORDER-TOP: #f1f1f1 1px solid; BORDER-LEFT: #f1f1f1 1px solid; COLOR: #000; BORDER-BOTTOM: #f1f1f1 1px solid
+}
+#masthead A:hover {
+	BORDER-RIGHT: #999 1px solid; BORDER-TOP: #999 1px solid; BORDER-LEFT: #999 1px solid; BORDER-BOTTOM: #999 1px solid; BACKGROUND-COLOR: #ccc
+}

@@ -1,0 +1,1304 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0059)http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx -->
+<HTML><HEAD><TITLE>.Net Security Blog : My application works from my local machine, but throws a SecurityException when I move it to a network share</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
+<META content=Security,CAS name=keywords>
+<META 
+content="How to modify your security policy to make your application work from the LocalIntranet zone" 
+name=description>
+<META content="MSHTML 6.00.2900.2802" name=GENERATOR><LINK 
+href="http://blogs.msdn.com/pingback.aspx" rel=pingback><LINK media=screen 
+href= "DotNetSecurity_files/style.css" 
+type=text/css rel=stylesheet><LINK media=print 
+href= "DotNetSecurity_files/print.css" 
+type=text/css rel=stylesheet><LINK media=screen 
+href= "DotNetSecurity_files/ms.css" 
+type=text/css rel=stylesheet><LINK href="/favicon.ico" type=image/ico 
+rel="shortcut icon"><LINK title=".Net Security Blog (RSS 2.0)" 
+href="http://blogs.msdn.com/shawnfa/rss.aspx" type=application/rss+xml 
+rel=alternate><LINK title=".Net Security Blog (Atom 1.0)" 
+href="http://blogs.msdn.com/shawnfa/atom.aspx" type=application/atom+xml 
+rel=alternate><LINK 
+title="My application works from my local machine, but throws a SecurityException when I move it to a network share Comment RSS (RSS 2.0)" 
+href="http://blogs.msdn.com/shawnfa/commentrss.aspx?PostID=57023" 
+type=application/rss+xml rel=alternate>
+<SCRIPT 
+src= "DotNetSecurity_files/global.js" 
+type=text/javascript></SCRIPT>
+</HEAD>
+<BODY>
+<FORM language=javascript id=__aspnetForm name=__aspnetForm 
+onsubmit="if (!ValidatorOnSubmit()) return false;" 
+action=/shawnfa/archive/2003/06/20/57023.aspx method=post><INPUT type=hidden 
+name=__EVENTTARGET> <INPUT type=hidden name=__EVENTARGUMENT> <INPUT type=hidden 
+value=dDwxOTEyODEyMTQ3OztsPF9jdGwwOl86X2N0bDA6XzpCbG9nU2lkZUJhcjE6XzpTaW5nbGV3ZWJsb2dzZWFyY2gxOl86U2VhcmNoQm94O19jdGwwOl86X2N0bDA6XzpfY3RsMTpfOmZvcm06XzpjaGtSZW1lbWJlcjs+PiKgz98Rwt1tAoJrNY+J1/p/86GO 
+name=__VIEWSTATE>
+<SCRIPT language=javascript type=text/javascript>
+<!--
+	function __doPostBack(eventTarget, eventArgument) {
+		var theform;
+		if (window.navigator.appName.toLowerCase().indexOf("microsoft") > -1) {
+			theform = document.__aspnetForm;
+		}
+		else {
+			theform = document.forms["__aspnetForm"];
+		}
+		theform.__EVENTTARGET.value = eventTarget.split("$").join(":");
+		theform.__EVENTARGUMENT.value = eventArgument;
+		theform.submit();
+	}
+// -->
+</SCRIPT>
+
+<SCRIPT language=javascript type=text/javascript>
+var RatingControlAJAX = {
+
+"SaveRating": function(id, rating, clientCallBack) {
+	return Ajax_CallBack('CommunityServer.Blogs.Controls.BlogRatePost', id, 'SaveRating', [rating], clientCallBack, false, false, false, true,'/shawnfa/archive/2003/06/20/57023.aspx?Ajax_CallBack=true');
+}
+
+};
+</SCRIPT>
+
+<SCRIPT language=javascript 
+src= "DotNetSecurity_files/WebUIValidation.js" 
+type=text/javascript></SCRIPT>
+ 
+<DIV id=masthead>
+<DIV id=welcome align=right>Welcome to MSDN Blogs <A 
+id=_ctl0____ctl0___duw1_ac1___Login 
+href="http://blogs.msdn.com/login.aspx?ReturnUrl=/shawnfa/archive/2003/06/20/57023.aspx">Sign 
+in</A> | <A id=_ctl0____ctl0___duw1_ac1___Register 
+href="http://blogs.msdn.com/user/CreateUser.aspx?ReturnUrl=/shawnfa/archive/2003/06/20/57023.aspx">Join</A> 
+| <A id=_ctl0____ctl0___duw1_Faq1 
+href="http://blogs.msdn.com/languages/en-US/docs/faq.aspx">Help</A> </DIV></DIV>
+<DIV id=wrapper>
+<DIV id=container>
+<DIV id=header>
+<DIV id=title>
+<H1><A class=headermaintitle id=_ctl0____ctl0___BlogTitleHeader1___BlogTitle 
+href="http://blogs.msdn.com/shawnfa/default.aspx">.Net Security 
+Blog</A></H1></DIV>
+<P></P></DIV>
+<DIV id=contentwrapper>
+<DIV id=sidebar-a>
+<DIV id=WeblogLinks>
+<H3>This Blog</H3>
+<UL>
+  <LI><A href="http://blogs.msdn.com/shawnfa/about.aspx">About</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/contact.aspx">Email</A> 
+</LI></UL></DIV>
+<DIV id=Cal align=center>
+<TABLE class=Calendar id=PostCalendar cellSpacing=0 cellPadding=2 border=0>
+  <TBODY>
+  <TR>
+    <TD colSpan=7>
+      <TABLE class=CalendarTitle cellSpacing=0 border=0>
+        <TBODY>
+        <TR>
+          <TD class=CalendarNextPrev align=middle><A style="COLOR: black" 
+            href="javascript:__doPostBack('_ctl0$_$_ctl0$_$BlogSideBar1$_$Cal$_$PostCalendar','V1216')">May</A></TD>
+          <TD align=middle>June 2003</TD>
+          <TD class=CalendarNextPrev align=right><A style="COLOR: black" 
+            href="javascript:__doPostBack('_ctl0$_$_ctl0$_$BlogSideBar1$_$Cal$_$PostCalendar','V1277')">Jul</A></TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=CalendarDayHeader align=middle>S</TD>
+    <TD class=CalendarDayHeader align=middle>M</TD>
+    <TD class=CalendarDayHeader align=middle>T</TD>
+    <TD class=CalendarDayHeader align=middle>W</TD>
+    <TD class=CalendarDayHeader align=middle>T</TD>
+    <TD class=CalendarDayHeader align=middle>F</TD>
+    <TD class=CalendarDayHeader align=middle>S</TD></TR>
+  <TR>
+    <TD class=CalendarOtherMonth align=middle>25</TD>
+    <TD class=CalendarOtherMonth align=middle>26</TD>
+    <TD class=CalendarOtherMonth align=middle>27</TD>
+    <TD class=CalendarOtherMonth align=middle>28</TD>
+    <TD class=CalendarOtherMonth align=middle>29</TD>
+    <TD class=CalendarOtherMonth align=middle>30</TD>
+    <TD class=CalendarOtherMonth align=middle>31</TD></TR>
+  <TR>
+    <TD class=CalendarWeekend align=middle>1</TD>
+    <TD align=middle>2</TD>
+    <TD align=middle>3</TD>
+    <TD align=middle>4</TD>
+    <TD align=middle>5</TD>
+    <TD align=middle>6</TD>
+    <TD class=CalendarWeekend align=middle>7</TD></TR>
+  <TR>
+    <TD class=CalendarWeekend align=middle>8</TD>
+    <TD align=middle>9</TD>
+    <TD align=middle>10</TD>
+    <TD align=middle>11</TD>
+    <TD align=middle>12</TD>
+    <TD align=middle>13</TD>
+    <TD class=CalendarWeekend align=middle>14</TD></TR>
+  <TR>
+    <TD class=CalendarWeekend align=middle>15</TD>
+    <TD align=middle>16</TD>
+    <TD align=middle>17</TD>
+    <TD align=middle>18</TD>
+    <TD align=middle>19</TD>
+    <TD align=middle><A title="1 Post" 
+      href="http://blogs.msdn.com/shawnfa/archive/2003/6/20.aspx">20</A></TD>
+    <TD class=CalendarWeekend align=middle>21</TD></TR>
+  <TR>
+    <TD class=CalendarWeekend align=middle>22</TD>
+    <TD align=middle>23</TD>
+    <TD align=middle>24</TD>
+    <TD align=middle>25</TD>
+    <TD align=middle><A title="1 Post" 
+      href="http://blogs.msdn.com/shawnfa/archive/2003/6/26.aspx">26</A></TD>
+    <TD align=middle>27</TD>
+    <TD class=CalendarWeekend align=middle>28</TD></TR>
+  <TR>
+    <TD class=CalendarWeekend align=middle>29</TD>
+    <TD align=middle>30</TD>
+    <TD class=CalendarOtherMonth align=middle>1</TD>
+    <TD class=CalendarOtherMonth align=middle>2</TD>
+    <TD class=CalendarOtherMonth align=middle>3</TD>
+    <TD class=CalendarOtherMonth align=middle>4</TD>
+    <TD class=CalendarOtherMonth align=middle>5</TD></TR></TBODY></TABLE></DIV>
+<DIV id=Subscriptions>
+<H3>Syndication</H3>
+<UL>
+  <LI><A href="http://blogs.msdn.com/shawnfa/rss.aspx">RSS 2.0</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/atom.aspx">Atom 1.0</A> 
+</LI></UL></DIV>
+<DIV id=Search>
+<H3>Search</H3>
+<UL>
+  <LI><INPUT class=searchBox 
+  id=_ctl0____ctl0___BlogSideBar1___Singleweblogsearch1___SearchBox 
+  onkeydown=KeyDownHandler_ctl0____ctl0___BlogSideBar1___Singleweblogsearch1___SearchButton(event); 
+  name=_ctl0:_:_ctl0:_:BlogSideBar1:_:Singleweblogsearch1:_:SearchBox> <A 
+  id=_ctl0____ctl0___BlogSideBar1___Singleweblogsearch1___SearchButton 
+  href="javascript:__doPostBack('_ctl0$_$_ctl0$_$BlogSideBar1$_$Singleweblogsearch1$_$SearchButton','')">Go</A> 
+  </LI></UL></DIV>
+<H3>Archives</H3>
+<UL>
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/2006/02.aspx">February 2006 
+  (5)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/2006/01.aspx">January 2006 
+  (9)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/2005/12.aspx">December 2005 
+  (7)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/2005/11.aspx">November 2005 
+  (8)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/2005/10.aspx">October 2005 
+  (8)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/2005/09.aspx">September 
+  2005 (11)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/2005/08.aspx">August 2005 
+  (7)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/2005/07.aspx">July 2005 
+  (8)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/2005/06.aspx">June 2005 
+  (4)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/2005/05.aspx">May 2005 
+  (12)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/2005/04.aspx">April 2005 
+  (6)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/2005/03.aspx">March 2005 
+  (10)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/2005/02.aspx">February 2005 
+  (10)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/2005/01.aspx">January 2005 
+  (10)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/2004/12.aspx">December 2004 
+  (10)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/2004/11.aspx">November 2004 
+  (11)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/2004/10.aspx">October 2004 
+  (12)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/2004/09.aspx">September 
+  2004 (10)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/2004/08.aspx">August 2004 
+  (10)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/2004/07.aspx">July 2004 
+  (10)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/2004/06.aspx">June 2004 
+  (11)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/2004/05.aspx">May 2004 
+  (7)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/2004/04.aspx">April 2004 
+  (15)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/2004/03.aspx">March 2004 
+  (21)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/2004/02.aspx">February 2004 
+  (12)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/2004/01.aspx">January 2004 
+  (4)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/2003/12.aspx">December 2003 
+  (1)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/2003/11.aspx">November 2003 
+  (5)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/2003/10.aspx">October 2003 
+  (1)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/2003/06.aspx">June 2003 
+  (2)</A> </LI></UL>
+<H3>News</H3>
+<DIV id=News>
+<UL>
+  <LI><A 
+  href="http://blogs.msdn.com/shawnfa/archive/2005/08/24/455581.aspx">What's New 
+  in Security for v2.0</A> 
+  <LI><A 
+  href="http://blogs.msdn.com/shawnfa/archive/2005/02/08/369384.aspx">List of 
+  CLR Bloggers</A> 
+  <LI><A 
+  href="http://blogs.msdn.com/shawnfa/archive/2005/08/31/458507.aspx">Getting 
+  Help with your .NET Questions</A></LI></UL></DIV>
+<H3>Navigation</H3>
+<DIV id=headertab>
+<UL>
+  <LI id=_ctl0____ctl0___BlogSideBar1____ctl5___Menu__ctl0_listItem><A 
+  id=_ctl0____ctl0___BlogSideBar1____ctl5___Menu__ctl0_MenuItem 
+  href="http://blogs.msdn.com/">Home</A> 
+  <LI id=_ctl0____ctl0___BlogSideBar1____ctl5___Menu__ctl1_listItem><A 
+  id=_ctl0____ctl0___BlogSideBar1____ctl5___Menu__ctl1_MenuItem 
+  href="http://blogs.msdn.com/photos/default.aspx">Photos</A> </LI></UL></DIV>
+<H3>Post Categories</H3>
+<UL>
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/category/3725.aspx">CAS 
+  (73)</A> 
+  <LI><A 
+  href="http://blogs.msdn.com/shawnfa/archive/category/2866.aspx">ClickOnce 
+  (21)</A> 
+  <LI><A 
+  href="http://blogs.msdn.com/shawnfa/archive/category/2868.aspx">Cryptography 
+  (53)</A> 
+  <LI><A 
+  href="http://blogs.msdn.com/shawnfa/archive/category/4009.aspx">Debugging 
+  (17)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/category/3899.aspx">Other 
+  (22)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/category/10848.aspx">PDC05 
+  (7)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/category/12083.aspx">Policy 
+  (8)</A> 
+  <LI><A 
+  href="http://blogs.msdn.com/shawnfa/archive/category/2864.aspx">Security 
+  (154)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/category/2867.aspx">SSCLI / 
+  Mono (9)</A> 
+  <LI><A 
+  href="http://blogs.msdn.com/shawnfa/archive/category/5828.aspx">StrongName 
+  (30)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/category/4485.aspx">Under 
+  the Hood (34)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/category/3929.aspx">Visual 
+  Studio (15)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/category/2865.aspx">Whidbey 
+  (88)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/category/4023.aspx">Windows 
+  (31)</A> 
+  <LI><A href="http://blogs.msdn.com/shawnfa/archive/category/2869.aspx">XML 
+  (18)</A> </LI></UL></DIV>
+<DIV id=content>
+<DIV class=post>
+<DIV class=postsub>
+<H2>My application works from my local machine, but throws a SecurityException 
+when I move it to a network share</H2>
+<P>Programs that run on the CLR use something called code access security (CAS). 
+CAS is different from traditional security systems in that it assigns trust to 
+code rather than users. To do this, the security system gathers a set of 
+evidence about every assembly it loads.&nbsp; This evidence is then compared 
+against the security policy, and a permission grant is generated. A good 
+reference CAS can be found here: <BR>&nbsp;<BR><A 
+href="http://msdn.microsoft.com/msdnmag/issues/01/02/CAS/default.aspx">http://msdn.microsoft.com/msdnmag/issues/01/02/CAS/default.aspx</A> 
+<BR>&nbsp;<BR>One of the pieces of evidence that the security system gathers is 
+the security zone that the code is running from. When you run the code from your 
+local machine, this will be the MyComputer zone, but when you run it off of a 
+server, or even a network share mapped to a drive on your machine, it will be 
+the LocalIntranet zone. </P>
+<P>By default any code that is run from the MyComputer zone will get a 
+permission set of FullTrust (unrestricted permission to do anything it pleases). 
+However, by default, there is a more restrictive permission set&nbsp;given 
+to&nbsp;LocalIntranet assemblies. </P>
+<P>There are three ways to make an application that works from the MyComputer 
+zone work from the LocalIntranet zone. </P>
+<OL>
+  <LI>Determine what permissions are being demanded that are causing your 
+  application to throw, and try to modify your application to not require these 
+  permissions any more. The SecurityException that is being thrown should tell 
+  you which demand <BR>failed. 
+  <LI>Give all the assemblies in your application a strong name, and modify the 
+  security policy to trust this strong name. <EM>(recommended)</EM> 
+  <LI>Modify the security policy to fully trust the LocalIntranet zone.<EM> 
+  (generally a bad idea)</EM> </LI></OL>
+<P>In order to modify the security policy to trust a specific strong name, 
+you'll first need to sign the assemblies in your application, and give them a 
+strong name, you'll need to generate a strong name key pair using the sn.exe 
+tool: </P>
+<UL>
+  <LI>sn -k <EM>mykey.snk</EM> </LI></UL>
+<P>Once you have this key, you'll need to make sure your assemblies are signed 
+with it.&nbsp; The easiest way to do&nbsp;this is to add&nbsp;an 
+AssemblyKeyFileAttribute to your assembly.&nbsp; In the above example, my 
+attribute would be [AssemblyKeyFile("mykey.snk")].&nbsp; Note, if you are using 
+Visual Studio to build your projects, you'll need to put a path relative to the 
+location VS puts your binary assemblies.&nbsp; So if your assembly is built to 
+bin\Release, you'd need to use "..\..\mykey.snk". </P>
+<P>In addition to a signature, assemblies need to have a version number to have 
+a strong name.&nbsp; Make sure your assemblies have the AssemblyVersionAttribute 
+on them if you are going to use a strong name.&nbsp; You will also need to make 
+sure that you give all&nbsp;of&nbsp;the&nbsp;assemblies in your application the 
+strong name signature. </P>
+<P>If you don't sign your assemblies, and instead decide to modify your security 
+policy to fully trust the Intranet zone, be aware that any applicaiton that 
+somebody puts on a network share will be able to run unchecked on your local 
+machine.&nbsp; Since this is a pretty large security hole, it is generally 
+recommended that you trust strong names rather than zones. </P>
+<P>The easiest way to modify your security policy is by using the Microsoft .NET 
+Framework Configuration utility from the control panel.&nbsp; You can also run 
+this tool from the command line by running mscorcfg.msc. </P>
+<OL>
+  <LI>Expand the Runtime Security Policy folder 
+  <LI>Expand the Machine policy level 
+  <LI>Expand the Code Groups folder </LI></OL>
+<P><STRONG>To modify the polcy to trust a specific strong name:</STRONG> </P>
+<OL>
+  <LI>Right click on All_Code, and select New 
+  <LI>Create a new code group for your strong name, and hit next 
+  <LI>Select a strong name membership condition from the drop down box 
+  <LI>Hit the import button, and select your assembly.&nbsp; The configuration 
+  tool will import your public key.&nbsp; If you want to trust everything you 
+  sign with this key, leave the name and version boxes unchecked 
+  <LI>Select the FullTrust permission set </LI></OL>
+<P><STRONG>To modify the policy to allow full trust for all Intranet 
+assemblies:</STRONG> </P>
+<OL>
+  <LI>Expand the All_Code code group 
+  <LI>Right click the LocalIntranet_Zone code group, and select properties 
+  <LI>Switch to the Permission Set tab, and select FullTrust </LI></OL>
+<P><EM>Updated 7/30/04: Fixed a typo</EM></P>
+<DIV class=postfoot>Published Friday, June 20, 2003 10:28 PM by <A 
+id=_ctl0____ctl0____ctl1___Entry___AuthorLink 
+href="http://blogs.msdn.com/user/Profile.aspx?UserID=2968">shawnfa</A> <BR>Filed 
+Under: <A id=_ctl0____ctl0____ctl1___Entry___Tags___Categories__ctl1_Link 
+href="http://blogs.msdn.com/shawnfa/archive/category/2864.aspx" 
+rel=tag>Security</A>, <A 
+id=_ctl0____ctl0____ctl1___Entry___Tags___Categories__ctl3_Link 
+href="http://blogs.msdn.com/shawnfa/archive/category/3725.aspx" rel=tag>CAS</A> 
+</DIV></DIV></DIV>
+<DIV id=postToolbar>
+<H2 class=CommonSubTitle>Comment Notification</H2>
+<P>If you would like to receive an email when updates are made to this post, 
+please register <A id=_ctl0____ctl0____ctl1___DetailedSubBar___RegisterLink 
+href="http://blogs.msdn.com/user/CreateUser.aspx?ReturnUrl=/shawnfa/archive/2003/06/20/57023.aspx">here</A> 
+</P>
+<P>You can also stay up to date using your favorite aggregator by subscribing to 
+the <A id=_ctl0____ctl0____ctl1___DetailedSubBar___CommentRssLink 
+href="http://blogs.msdn.com/shawnfa/commentrss.aspx?PostID=57023">CommentRss 
+Feed</A> </P></DIV>
+<H3>Comments </H3>
+<DIV id=comments>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl0_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#57024">#</A> 
+<SPAN>RE: My application works from my local machine, but throws a 
+SecurityException when I move it to a network share<A name=57024></A></SPAN> 
+</H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Friday, November 14, 
+2003 1:35 PM by <A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl0_NameLink 
+title=Ann href="http://blogs.msdn.com/user/Profile.aspx?UserID=1001" 
+target=_blank>Ann</A> </DIV>
+<DIV class=commentsbody>Good blog! Is it true that in order to run an assembly 
+from a network drive with the recommended method, I have to sign every assembly 
+in my company with the same key, and configure every computer manually 
+(including new ones and rebuilt ones) to trust the common key? If that's the 
+case, then the statement "CAS is different from traditional security systems" is 
+pretty right on! Anyway, thanks for taking the time to explain this all. I'd 
+love to see some recommendations on the first suggestion (handle Security in 
+code). I've seen a lot of posts about Security failures from people trying to 
+read from a DB from the IntranetZone, and their solution is usually just to copy 
+the executable to C:. </DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl1_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#57025">#</A> 
+<SPAN>RE: My application works from my local machine, but throws a 
+SecurityException when I move it to a network share<A name=57025></A></SPAN> 
+</H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Friday, November 21, 
+2003 5:53 PM by <A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl1_NameLink 
+title=Shawn 
+href="http://blogs.msdn.com/utility/Redirect.aspx?U=http%3a%2f%2fblogs.gotdotnet.com%2fshawnfa" 
+target=_blank rel=nofollow>Shawn</A> </DIV>
+<DIV class=commentsbody>Yep -- the recommended method would require you to 
+modify the policy on all machines (though, you can use AdminUI to create an .MSI 
+file that does this for you automatically). You don't have to sign everything 
+with the same key, though if you don't you'll have to trust every key that you 
+sign assemblies with. For handling security in code, you just need to make sure 
+that you know what your application is going to require, and attempt to write it 
+in such a way that it won't require a large set of permissions. In our upcoming 
+Whidbey release, we're working on a tool that will help you figure out which 
+permissions your application requires (though it will not be perfect, as this is 
+a very difficult problem to solve). </DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl2_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#81027">#</A> 
+<SPAN>re: My application works from my local machine, but throws a 
+SecurityException when I move it to a network share<A name=81027></A></SPAN> 
+</H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Friday, February 27, 
+2004 4:32 AM by <A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl2_NameLink 
+title="Andrew Schonberger" 
+href="http://blogs.msdn.com/user/Profile.aspx?UserID=1001" target=_blank>Andrew 
+Schonberger</A> </DIV>
+<DIV class=commentsbody>I wonder whether granting Full Trust to an application 
+would be a security leak. Even well-meaning, benign applications could be 
+misused. I'd rather define a new permission set. In my case, I intend to have a 
+two-tier and batch apps, which need access to Sql and File I/O. <BR><BR>My 
+organisation uses a strictly controled shared drive to deploy applications. 
+Executing from a particular shared drive is a trusted operation. On the other 
+hand, applications vary wildly among themselves, and giving the same access to 
+all of them could be counter-productive. <BR><BR>I've worked at another 
+organisation which was using Novell Launcher, which was able to push local 
+copies of executables onto user's machines. Frankly, this sounds like a better 
+solution, especially when the infrastructure already exists. <BR><BR>The complex 
+security model is the price we have to pay to all the malicious hackers. Still, 
+Microsoft could have done a better job at explaining and presenting the model. 
+It is the first dark spot I encounter in Dot Net. Otherwise it is excellent. 
+With a bit of exageration, I could say it is the first MS product which stands 
+on its merit. <BR><BR>Andrew </DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl3_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#81165">#</A> 
+<SPAN>re: My application works from my local machine, but throws a 
+SecurityException when I move it to a network share<A name=81165></A></SPAN> 
+</H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Friday, February 27, 
+2004 10:31 AM by <A 
+id=_ctl0____ctl0____ctl1___Comments___Comments__ctl3_NameLink title=Shawn 
+href="http://blogs.msdn.com/utility/Redirect.aspx?U=http%3a%2f%2fblogs.msdn.com%2fshawnfa" 
+target=_blank rel=nofollow>Shawn</A> </DIV>
+<DIV class=commentsbody>Hi Andrew -- that's a very good point you make there. In 
+fact, I agree that applications should run with the smallest set of permissions 
+they need. While the CAS system does help to prevent overly trusted applications 
+from being tricked by malicious code into doing something bad (since a full 
+stack walk will hit the malicious code, which presumably doesn't have the level 
+of trust required, and throw), minimizing the set of permissions your 
+application is running with is always a good idea. <BR><BR>The problem, at least 
+on v1.0 and v1.1, is that it is very hard for developers to figure out exactly 
+what set of permissions they actually need to run with. We're working very hard 
+to solve that problem on Whidbey in a number of ways. Many of the key 
+improvments are integrated into the Visual Studio environment itself, for 
+instance there will be a "Debug in Zone" feature, that allows developers to say 
+that their app will be run from the intranet, so the debugger should run it with 
+only the intranet set of permissions. This will allow earlier catching of 
+security exceptions, and allow the developer to think of alternate, 
+less-privilaged ways of doing things. <BR><BR>Another VS improvment will be in 
+debugging the security exceptions themselves. Thee is enhanced security 
+exception support, where the VS debugger will show you what exactly caused the 
+exception and give you tips on solving the problem. <BR><BR>I plan on writing a 
+post in a few weeks on tools that we're working on to allow developers to 
+determine exactly what permissions their application requires in order to run. 
+This tool, combined with the enhanced VS support for debugging security 
+problems, should help to enable the least-privilege scenario you describe. 
+</DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl4_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#90462">#</A> 
+<SPAN>re: My application works from my local machine, but throws a 
+SecurityException when I move it to a network share<A name=90462></A></SPAN> 
+</H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Tuesday, March 16, 
+2004 7:28 AM by <A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl4_NameLink 
+title=Jane href="http://blogs.msdn.com/user/Profile.aspx?UserID=1001" 
+target=_blank>Jane</A> </DIV>
+<DIV class=commentsbody>Hi, Shawm, <BR>This is a great blog! It clears some of 
+my confusions about CAS. <BR>I have been stuck and struggling on a problem about 
+.NET remoting. I wonder if you can help me out. I am testing the .NET Remoting 
+architecture for our project I wrote a small function as a remote object. This 
+function uses SQLHelper class to execute a SQL query against our testing 
+database. The driven application of this function is an ASP.NET application. 
+When I set up and run the applications on my local machine, everything works 
+fine. However, when I move the remote object to another machine in the same 
+Intranet, I keep getting exception: <BR>Request for the permission of type 
+System.Data.SqlClient.SqlClientPermission <BR>I modified the security policy to 
+full trust the LocalIntranet Zone on both of the local machine and remote 
+machine (I realize it is not secure but I am so devastating to get it work at 
+the moment that I want to try everything). I still get the same error message. 
+Then I increased the trust level of System.Data.dll to full trust on both 
+machines using .NET Framework Configuration. It still doesn’t work. You 
+suggested that it is also possible that giving the assemblies a strong. However, 
+this assembly is already in the global assembly caches on both machines. I don’t 
+think it is necessary to do that. Do you know where problems could be? 
+<BR><BR><BR>Thanks a lot! <BR><BR>Jane </DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl5_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#91376">#</A> 
+<SPAN>re: My application works from my local machine, but throws a 
+SecurityException when I move it to a network share<A name=91376></A></SPAN> 
+</H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Wednesday, March 17, 
+2004 11:28 AM by <A 
+id=_ctl0____ctl0____ctl1___Comments___Comments__ctl5_NameLink title=Shawn 
+href="http://blogs.msdn.com/utility/Redirect.aspx?U=http%3a%2f%2fblogs.msdn.com%2fshawnfa" 
+target=_blank rel=nofollow>Shawn</A> </DIV>
+<DIV class=commentsbody>Hi Jane, <BR><BR>I'm not a remoting guru, so I'm just 
+going to take a few guesses here. First off, trusting System.Data.Dll didn't 
+work, because your demand is failing somewhere else on the call stack. It's 
+possible that since you're using HTTP and ASP.Net that you're getting assigned 
+Internet evidence instead of LocalIntranet. In that case, you could try trusting 
+the Internet zone (only for a test run obviously). If this works, I would then 
+create a sub code group off the Internet Zone, possibly using Url evidence to 
+create a safer trust environment. I'd be interested to know if this works, or if 
+it didn't. Thanks. <BR><BR>-Shawn </DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl6_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#92862">#</A> 
+<SPAN>re: My application works from my local machine, but throws a 
+SecurityException when I move it to a network share<A name=92862></A></SPAN> 
+</H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Friday, March 19, 2004 
+12:10 PM by <A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl6_NameLink 
+title=Jane href="http://blogs.msdn.com/user/Profile.aspx?UserID=1001" 
+target=_blank>Jane</A> </DIV>
+<DIV class=commentsbody>Thanks for taking time for my questions. The 
+LocalIntranet_Zone finally works. The problem was that I need to restart the 
+machine to activate the changes made to the LocalIntralnet_Zone. I find out that 
+I only need SQL Client permission for using System.Data.dll instead of the 
+fulltrust. That is nice because it won't risk the security of the machine so 
+much. <BR>Distributing assemblies is really giving me a hard time. The reason if 
+using .NET Remoting for our project is that we want to store all of business 
+logics on application farm. In another word, no assemblie related to business 
+logic or database access should appear on the web farm. However, I found out 
+that whatever assemblies appear on the application farm, a copy of them is 
+needed on the web farm. THis is ridiculous. I think I realy should try if 
+interface_based programming works. <BR><BR>-jane </DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl7_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#121517">#</A> 
+<SPAN>re: My application works from my local machine, but throws a 
+SecurityException when I move it to a network share<A name=121517></A></SPAN> 
+</H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Tuesday, April 27, 
+2004 3:17 PM by <A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl7_NameLink 
+title=xasa 
+href="http://blogs.msdn.com/utility/Redirect.aspx?U=http%3a%2f%2fwww.xasa.es%2f" 
+target=_blank rel=nofollow>xasa</A> </DIV>
+<DIV class=commentsbody>Thanks </DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl8_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#136088">#</A> 
+<SPAN>re: My application works from my local machine, but throws a 
+SecurityException when I move it to a network share<A name=136088></A></SPAN> 
+</H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Thursday, May 20, 2004 
+12:31 PM by <A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl8_NameLink 
+title=Steve href="http://blogs.msdn.com/user/Profile.aspx?UserID=1001" 
+target=_blank>Steve</A> </DIV>
+<DIV class=commentsbody>Hello, <BR>This post helped us get our new .NET 
+application running from a shared network folder and works fine as an internal 
+application for our small company. But it's not clear to me how we're supposed 
+to deal with .NET applications intended to be deployed to our customers' PCs. 
+Are we supposed to ask our customers to change trust levels through the Control 
+Panel? Or blindly run a policy MSI? If we create a policy MSI for them to 
+install, how do we keep that MSI from overwriting or replacing any existing 
+policies? We're new to .NET and have just stumbled upon some of these .NET 
+security and deployment issues, and any help would be greatly appreciated. 
+</DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl9_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#136151">#</A> 
+<SPAN>re: My application works from my local machine, but throws a 
+SecurityException when I move it to a network share<A name=136151></A></SPAN> 
+</H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Thursday, May 20, 2004 
+1:28 PM by <A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl9_NameLink 
+title=Shawn 
+href="http://blogs.msdn.com/utility/Redirect.aspx?U=http%3a%2f%2fblogs.msdn.com%2fshawnfa" 
+target=_blank rel=nofollow>Shawn</A> </DIV>
+<DIV class=commentsbody>Hi Steve, <BR><BR>Glad the post helped you get 
+everything up and working. As you've discovered, currently the only way to get 
+policy deployed across the enterprise is with some sort of group policy. And 
+unfortunately, you cannot do this without overwriting everyone's customized 
+policies. (However, most people do not change their policy, so this shouldn't be 
+much of an issue). <BR>You could also offer the option of installing the policy 
+.msi on a web page with your application, and have only people who need your app 
+change their policy. <BR>For Whidbey we're working on ClickOnce ... a way to 
+distribute applications that esentially solve this problem. Each application 
+will know the set of permissions it requires, and users can allow, on a per-app 
+basis, each app to run with those permissions. <BR><BR>-Shawn </DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl10_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#143864">#</A> 
+<SPAN>re: My application works from my local machine, but throws a 
+SecurityException when I move it to a network share<A name=143864></A></SPAN> 
+</H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Friday, May 28, 2004 
+9:29 AM by <A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl10_NameLink 
+title="Jonathan Evraire" 
+href="http://blogs.msdn.com/user/Profile.aspx?UserID=1001" 
+target=_blank>Jonathan Evraire</A> </DIV>
+<DIV class=commentsbody>I have an application that is used to transform XML 
+instances. The application allows the user to select two input XML instances and 
+one output XML instance, then it executes an XSLT transform on the two input 
+instances and writes the results to the selected output instance. <BR><BR>This 
+application is located on an intranet server and is available to our users via a 
+mapped network share. Obviously I have a problem, as the LocalIntranet zone does 
+not permit full IO Permissions and my application needs them to not only read in 
+the user's files, but also to write out the results. My solution was to 
+digitally sign my application (ie: giving it a strong name) and to add a Code 
+Group (child to the LocalIntranet_Zone code group) granting the necessary 
+permissions to any application signed with this certificate. <BR><BR>To test my 
+theory, I started by setting my LocalInternet_Zone itself to Full Trust, and my 
+application behaved as desired. Next up, I signed my application and created the 
+Code Group within the LocalIntranet_Zone. To begin testing, I decided to assign 
+any application signed with my certificate the FullTrust permissions. I reset my 
+zone permissions and tested my application. It appeared to behave as expected, 
+however the output produced was wrong: only one of the two input XML files was 
+processed! <BR><BR>My theory behind what's happening is this... my assembly is 
+signed with my digital certificate, and thus my assembly is getting the 
+necessary FullTrush permissions. However, the XslTransform object I'm using from 
+the .NET Framework, being in a seperate assembly not signed with my certificate, 
+is still using the default LocalIntranet_Zone permissions, which is to say 
+limited IO permissions. As such, the document() statement in my XSLT file which 
+loads in the second input instance is failing and I only get the first input 
+instance on the other end of my transform. <BR><BR>Thus, my question is this: 
+what is the proper way of assigning permissions to my application such that not 
+only my assembly has the proper permissions, but also ajoining .NET Framework 
+assemblies? <BR><BR>Thank you for taking the time to assist me, <BR><BR>Jonathan 
+Evraire <BR>jonevrai at justice.gc.ca <BR></DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl11_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#143998">#</A> 
+<SPAN>re: My application works from my local machine, but throws a 
+SecurityException when I move it to a network share<A name=143998></A></SPAN> 
+</H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Friday, May 28, 2004 
+11:55 AM by <A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl11_NameLink 
+title=Shawn 
+href="http://blogs.msdn.com/utility/Redirect.aspx?U=http%3a%2f%2fblogs.msdn.com%2fshawnfa" 
+target=_blank rel=nofollow>Shawn</A> </DIV>
+<DIV class=commentsbody>Hi Jonathan, <BR><BR>I doubt that the problem you're 
+having is what you describe. The System.Xml classes live in System.Xml.dll, 
+which is located on the local machine and will get FullTrust due to that. (Each 
+assembly will get different grant sets, so the fact that your app runs off a 
+share doesn't stop System.Xml from getting full trust). In fact, there's an 
+additonal code group hanging off the MyComputer code group that matches the 
+strong name of the System.Xml assembly (and several other Microsoft assemblies), 
+so even if you change the trust level of the MyComputer zone, this will still 
+recieve full trust. <BR>Another hint I have that this isn't the problem is that 
+you don't see a security exception anywhere. The only way that this might be 
+security related is if some code somewhere is swallowing the exception. You 
+might want to try hooking a debugger up to your application and trapping first 
+chance exceptions to see if that is the case. <BR><BR>-Shawn </DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl12_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#144098">#</A> 
+<SPAN>re: My application works from my local machine, but throws a 
+SecurityException when I move it to a network share<A name=144098></A></SPAN> 
+</H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Friday, May 28, 2004 
+1:44 PM by <A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl12_NameLink 
+title="Jonathan Evraire" 
+href="http://blogs.msdn.com/user/Profile.aspx?UserID=1001" 
+target=_blank>Jonathan Evraire</A> </DIV>
+<DIV class=commentsbody>Thanks, that makes sense. Unfortunately I have no clue 
+what the problem could be. I've been trying to debug this all afternoon with no 
+progress. The same code is run with the IntranetZone set to FullTrust and just 
+my application set to FullTrust and the results are different. In both cases, 
+every line of my C# code behaves in exactly the same way, and even the 
+parameters passed into my script are the same. The only difference is when my 
+application is set to FullTrust the following works when the IntranetZone is set 
+to full trust, and it fails when my application is set to full trust: 
+<BR><BR>&lt;xsl:comment&gt; &lt;xsl:value-of select="$second-instance"/&gt; 
+<BR>&lt;xsl:choose&gt; <BR>&lt;xsl:when test="document($second-instance)"&gt; 
+<BR>&lt;xsl:comment&gt; Document found &lt;/xsl:comment&gt; 
+<BR>&lt;/xsl:when&gt; <BR>&lt;xsl:otherwise&gt; <BR>&lt;xsl:comment&gt; Document 
+NOT found! &lt;/xsl:comment&gt; <BR>&lt;/xsl:otherwise&gt; 
+<BR>&lt;/xsl:choose&gt; <BR><BR>(where $second-instance is a parameter passed 
+into my application, specifically the URI to the second input instance). In both 
+cases the value of $second-instance is correct according to the xsl:value-of, 
+yet the results are different. <BR><BR>I don't know what else I can do to figure 
+this out. </DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl13_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#145796">#</A> 
+<SPAN>re: My application works from my local machine, but throws a 
+SecurityException when I move it to a network share<A name=145796></A></SPAN> 
+</H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Tuesday, June 01, 2004 
+1:48 PM by <A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl13_NameLink 
+title="Jonathan Evraire" 
+href="http://blogs.msdn.com/user/Profile.aspx?UserID=1001" 
+target=_blank>Jonathan Evraire</A> </DIV>
+<DIV class=commentsbody>Further testing has revealed that, when my xslt 
+stylesheet is located on the C: drive, the document() function succeeds. 
+However, when my xslt stylesheet is on a network drive, the document() function 
+fails. Or, in other words, it would appear that whenever my xslt stylesheet is 
+in a zone that has FullTrust, the document() function succeeds, but when it's in 
+a zone with partial trust document() fails, even if the application itself has 
+FullTrust. <BR><BR>My question now becomes, how can I have my xslt stylesheet on 
+a network drive and still get document() to succeed? <BR><BR>Thanks for any help 
+you could provide, <BR><BR>Jonathan Evraire <BR>jonevrai at justice.gc.ca 
+<BR></DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl14_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#145811">#</A> 
+<SPAN>re: My application works from my local machine, but throws a 
+SecurityException when I move it to a network share<A name=145811></A></SPAN> 
+</H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Tuesday, June 01, 2004 
+1:59 PM by <A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl14_NameLink 
+title="Jonathan Evraire" 
+href="http://blogs.msdn.com/user/Profile.aspx?UserID=1001" 
+target=_blank>Jonathan Evraire</A> </DIV>
+<DIV class=commentsbody>From the .NET Framework help topic "XslTransform Class 
+Implements the XSLT Processor": <BR><BR>"Most of the Load methods also take 
+Evidence as a parameter. The Evidence parameter is the 
+System.Security.Policy.Evidence that is associated with the style sheet. The 
+security level of the style sheet affects the security level of any subsequent 
+resources it references, such as the script it contains, any document() 
+functions it uses, and any extension objects used by the XsltArgumentList. 
+<BR><BR>If the style sheet is loaded using a Load method that contains a URL 
+parameter and no Evidence parameter, the evidence of the style sheet is 
+calculated by combining the given URL with its site and zone." <BR><BR>I'm 
+guessing this is what's happening: I'm merely providing a URL to the stylesheet 
+without any Evidence. I guess the solution to my problem would be to provide the 
+necessary Evidence to permit my stylesheet to load outside documents, but how do 
+I do that? <BR><BR>I'll get to the bottom of this eventually! :) I hope my 
+trials will be beneficial to other visitors to this site. <BR><BR>Jonathan 
+Evraire <BR>jonevrai at justice.gc.ca <BR></DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl15_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#145814">#</A> 
+<SPAN>re: My application works from my local machine, but throws a 
+SecurityException when I move it to a network share<A name=145814></A></SPAN> 
+</H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Tuesday, June 01, 2004 
+2:03 PM by <A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl15_NameLink 
+title=Shawn 
+href="http://blogs.msdn.com/utility/Redirect.aspx?U=http%3a%2f%2fblogs.msdn.com%2fshawnfa" 
+target=_blank rel=nofollow>Shawn</A> </DIV>
+<DIV class=commentsbody>Hi Jonathan, <BR><BR>When you posted about the issue 
+with moving the stylesheet, it occured to me that this is exactly what is 
+happening. This pattern is used in several places across the runtime, where 
+input data is from a potentially untrusted source. You found the example of the 
+stylesheet, this is also true for XML Decryption in Whidbey. Since both of these 
+types of documents can cause arbitrary code to run on the user's machine, they 
+need to be provided with Evidence, otherwise we don't know how much you trust 
+the documents. I'm willing to be that once you provide Evidence to your 
+stylesheet that points it to a zone you trust, you'll be able to make this work. 
+Another alternative would be to modify your policy to trust the URL where the 
+stylesheet is loaded from. <BR><BR>-Shawn </DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl16_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#163764">#</A> 
+<SPAN>re: How to provide extra trust for an Internet Explorer hosted assembly<A 
+name=163764></A></SPAN> </H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Wednesday, June 23, 
+2004 12:25 PM by <A 
+id=_ctl0____ctl0____ctl1___Comments___Comments__ctl16_NameLink title=TrackBack 
+href="http://blogs.msdn.com/utility/Redirect.aspx?U=http%3a%2f%2fblogs.msdn.com%2fshawnfa%2farchive%2f2004%2f06%2f23%2f163763.aspx" 
+target=_blank rel=nofollow>.Net Security Blog</A> </DIV>
+<DIV class=commentsbody></DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl17_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#184331">#</A> 
+<SPAN>CAS Security<A name=184331></A></SPAN> </H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Thursday, July 15, 
+2004 2:24 PM by <A 
+id=_ctl0____ctl0____ctl1___Comments___Comments__ctl17_NameLink title=TrackBack 
+href="http://blogs.msdn.com/utility/Redirect.aspx?U=http%3a%2f%2fblogs.msdn.com%2fseangep.net%2farchive%2f2004%2f07%2f15%2f184330.aspx" 
+target=_blank rel=nofollow>Sean Gephardt's MSDN Blog on the Microsoft 
+Develop</A> </DIV>
+<DIV class=commentsbody></DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl18_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#192320">#</A> 
+<SPAN>re: My application works from my local machine, but throws a 
+SecurityException when I move it to a network share<A name=192320></A></SPAN> 
+</H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Friday, July 23, 2004 
+2:25 AM by <A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl18_NameLink 
+title=Joe href="http://blogs.msdn.com/user/Profile.aspx?UserID=1001" 
+target=_blank>Joe</A> </DIV>
+<DIV class=commentsbody>Great blog, thanks for the info. I'm having trouble 
+setting up jit debugging so I can look at exactly where SecurityExceptions are 
+thrown. I followed the <BR>directions given in the dialog launched by IE to set 
+&lt;system.windows.forms jitDebugging="false" /&gt; into the 
+&lt;configuation&gt; section of machine.config or web.config for the site 
+(hosted in IIS). This didn't work though - the dialog still came up, still no 
+way to attach a debugger. Any ideas? I also tried putting it in the 
+whatever.exe.config file. <BR><BR>&lt;pedantic&gt;Typo in first post - 
+mscorcfg.mmc should be mscorcfg.msc :-)&lt;/pedantic&gt; <BR></DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl19_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#200278">#</A> 
+<SPAN>re: My application works from my local machine, but throws a 
+SecurityException when I move it to a network share<A name=200278></A></SPAN> 
+</H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Wednesday, July 28, 
+2004 5:10 PM by <A 
+id=_ctl0____ctl0____ctl1___Comments___Comments__ctl19_NameLink title="joe goeke" 
+href="http://blogs.msdn.com/utility/Redirect.aspx?U=http%3a%2f%2f%3f" 
+target=_blank rel=nofollow>joe goeke</A> </DIV>
+<DIV class=commentsbody>I would really like some help with the first option 
+mentioned, which was: <BR><BR>"Determine what permissions are being demanded 
+that are causing your application to throw, and try to modify your application 
+to not require these permissions any more. The SecurityException that is being 
+thrown should tell you which demand <BR>failed. " <BR><BR>I cannot find any help 
+on how to do this. The only info I get from the app before I can even do any 
+debuging is: <BR><BR>"An unhandled exception of type 
+'System.Security.SecurityException' occurred in Unknown Module." <BR><BR>Please 
+throw me a bone :-) <BR>---JHG </DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl20_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#202325">#</A> 
+<SPAN>re: My application works from my local machine, but throws a 
+SecurityException when I move it to a network share<A name=202325></A></SPAN> 
+</H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Friday, July 30, 2004 
+9:58 AM by <A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl20_NameLink 
+title=Shawn 
+href="http://blogs.msdn.com/utility/Redirect.aspx?U=http%3a%2f%2fblogs.msdn.com%2fshawnfa" 
+target=_blank rel=nofollow>Shawn</A> </DIV>
+<DIV class=commentsbody>Joe #1 -- thanks for the info on the typo ... I've 
+updated the post. As for your ASPX debugging question, I'm not really an expert 
+in that area. Try hitting the microsoft.public.dotnet.framework.aspnet newsgroup 
+and seeing if they can help you out in there. <BR><BR>Joe Goeke -- <BR><BR>This 
+is a problem we fixed in Whidbey, the Security Exception is now greatly 
+improved. It shows you the demand that failed, the granted set of the assembly, 
+the action that failed, and the zone of hte assembly that failed. Also Visual 
+Studio 2005 will catch security exceptions where they're thrown, and provide 
+help on solving the problem. VS 2005 also allows "Debug in Zone", which enables 
+you to debug as if your app was on the Internet or Intranet. <BR><BR>-Shawn 
+</DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl21_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#202476">#</A> 
+<SPAN>re: My application works from my local machine, but throws a 
+SecurityException when I move it to a network share<A name=202476></A></SPAN> 
+</H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Friday, July 30, 2004 
+12:33 PM by <A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl21_NameLink 
+title=Shawn 
+href="http://blogs.msdn.com/utility/Redirect.aspx?U=http%3a%2f%2fblogs.msdn.com%2fshawnfa" 
+target=_blank rel=nofollow>Shawn</A> </DIV>
+<DIV class=commentsbody>Just to add to my above comment, I posted a new blog 
+entry today about the enhanced security exception in Whidbey. <A 
+href="http://blogs.msdn.com/shawnfa/archive/2004/07/30/202468.aspx" 
+target=_new>http://blogs.msdn.com/shawnfa/archive/2004/07/30/202468.aspx</A> 
+<BR><BR>-Shawn </DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl22_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#203197">#</A> 
+<SPAN>re: My application works from my local machine, but throws a 
+SecurityException when I move it to a network share<A name=203197></A></SPAN> 
+</H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Saturday, July 31, 
+2004 5:55 PM by <A 
+id=_ctl0____ctl0____ctl1___Comments___Comments__ctl22_NameLink title=Matt 
+href="http://blogs.msdn.com/user/Profile.aspx?UserID=1001" 
+target=_blank>Matt</A> </DIV>
+<DIV class=commentsbody>Hi There, <BR><BR>thanks for the great article! 
+<BR><BR>We are moving over 100 websites to a new webfarm. The majority of these 
+sites are .NET with no strong named assemblies. <BR><BR>I have a Win2003 Domain 
+Controller which hosts my SQL 2000 database, a win2003 webserver which will host 
+the many web applications that now write to a network share. I am getting the 
+error System.Security.SecurityException: Request for the permission of type 
+System.Data.SqlClient.SqlClientPermission in my .net pages (however this works 
+fine when moving the site to the local disk). <BR><BR>I did change the 
+machine.config file for the aspnet_worker process to run under a Domain user 
+instead of machine. <BR><BR>I tried modifying the LocalINtranet_ZONE to full 
+trust to see if it works. After rebooting the webserver it did not resolve the 
+problem. Do I need to make changes to the Domain Controller as well which hosts 
+the database? <BR><BR>Any help appreciated. </DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl23_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#205927">#</A> 
+<SPAN>re: My application works from my local machine, but throws a 
+SecurityException when I move it to a network share<A name=205927></A></SPAN> 
+</H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Monday, August 02, 
+2004 9:40 AM by <A 
+id=_ctl0____ctl0____ctl1___Comments___Comments__ctl23_NameLink title=Shawn 
+href="http://blogs.msdn.com/utility/Redirect.aspx?U=http%3a%2f%2fblogs.msdn.com%2fshawnfa" 
+target=_blank rel=nofollow>Shawn</A> </DIV>
+<DIV class=commentsbody>Hi Matt, <BR><BR>Unfortunately, I'm not an ASP.Net 
+expert, so I'm not sure what steps you should take next. I would recommend 
+hitting up the microsoft public newsgroups, specifically 
+microsoft.public.dotnet.aspnet to see if someone there can provide you with some 
+information. <BR><BR>-Shawn </DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl24_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#226531">#</A> 
+<SPAN>Deploying Policy on v1.0 and 1.1 of the CLR<A name=226531></A></SPAN> 
+</H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Tuesday, September 07, 
+2004 7:27 PM by <A 
+id=_ctl0____ctl0____ctl1___Comments___Comments__ctl24_NameLink title=TrackBack 
+href="http://blogs.msdn.com/utility/Redirect.aspx?U=http%3a%2f%2fblogs.msdn.com%2fshawnfa%2farchive%2f2004%2f09%2f07%2f226530.aspx" 
+target=_blank rel=nofollow>.Net Security Blog</A> </DIV>
+<DIV class=commentsbody></DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl25_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#274037">#</A> 
+<SPAN>Failing to Run in Partial Trust Gracefully<A name=274037></A></SPAN> </H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Thursday, December 02, 
+2004 7:08 PM by <A 
+id=_ctl0____ctl0____ctl1___Comments___Comments__ctl25_NameLink title=TrackBack 
+href="http://blogs.msdn.com/utility/Redirect.aspx?U=http%3a%2f%2fblogs.msdn.com%2fshawnfa%2farchive%2f2004%2f12%2f02%2f274036.aspx" 
+target=_blank rel=nofollow>.Net Security Blog</A> </DIV>
+<DIV class=commentsbody></DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl26_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#494045">#</A> 
+<SPAN>re: My application works from my local machine, but throws a 
+SecurityException when I move it to a network share<A name=494045></A></SPAN> 
+</H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Thursday, November 17, 
+2005 2:33 PM by <A 
+id=_ctl0____ctl0____ctl1___Comments___Comments__ctl26_NameLink title=Travis 
+href="http://blogs.msdn.com/utility/Redirect.aspx?U=http%3a%2f%2fttroyer%40hserve.com" 
+target=_blank rel=nofollow>Travis</A> </DIV>
+<DIV class=commentsbody>I'm working on an application that will be run from a 
+mapped network drive, using Visual Basic .Net 2003. I've created a key file and 
+referenced it in my AssemblyInfo file. I've compiled the application with Copy 
+Local set to True for its References. I've added a security policy, importing 
+the public key from my assembly, giving it Full Permission. I still receive the 
+errors below when trying to run the application. I would appreciate any 
+suggestions... <BR><BR>See the end of this message for details on invoking 
+<BR>just-in-time (JIT) debugging instead of this dialog box. 
+<BR><BR>************** Exception Text ************** 
+<BR>System.Security.Policy.PolicyException: Execution permission cannot be 
+acquired. <BR>at EMS_Requests.frmMain.Form1_Load(Object sender, EventArgs e) 
+<BR>at System.Windows.Forms.Form.OnLoad(EventArgs e) <BR>at 
+System.Windows.Forms.Form.OnCreateControl() <BR>at 
+System.Windows.Forms.Control.CreateControl(Boolean fIgnoreVisible) <BR>at 
+System.Windows.Forms.Control.CreateControl() <BR>at 
+System.Windows.Forms.Control.WmShowWindow(Message&amp; m) <BR>at 
+System.Windows.Forms.Control.WndProc(Message&amp; m) <BR>at 
+System.Windows.Forms.ScrollableControl.WndProc(Message&amp; m) <BR>at 
+System.Windows.Forms.ContainerControl.WndProc(Message&amp; m) <BR>at 
+System.Windows.Forms.Form.WmShowWindow(Message&amp; m) <BR>at 
+System.Windows.Forms.Form.WndProc(Message&amp; m) <BR>at 
+System.Windows.Forms.ControlNativeWindow.OnMessage(Message&amp; m) <BR>at 
+System.Windows.Forms.ControlNativeWindow.WndProc(Message&amp; m) <BR>at 
+System.Windows.Forms.NativeWindow.Callback(IntPtr hWnd, Int32 msg, IntPtr 
+wparam, IntPtr lparam) <BR><BR><BR>************** Loaded Assemblies 
+************** <BR>mscorlib <BR>Assembly Version: 1.0.5000.0 <BR>Win32 Version: 
+1.1.4322.573 <BR>CodeBase: 
+file:///c:/winnt/microsoft.net/framework/v1.1.4322/mscorlib.dll 
+<BR>---------------------------------------- <BR>System <BR>Assembly Version: 
+1.0.5000.0 <BR>Win32 Version: 1.1.4322.573 <BR>CodeBase: 
+file:///c:/winnt/assembly/gac/system/1.0.5000.0__b77a5c561934e089/system.dll 
+<BR>---------------------------------------- <BR>System.Drawing <BR>Assembly 
+Version: 1.0.5000.0 <BR>Win32 Version: 1.1.4322.573 <BR>CodeBase: 
+file:///c:/winnt/assembly/gac/system.drawing/1.0.5000.0__b03f5f7f11d50a3a/system.drawing.dll 
+<BR>---------------------------------------- <BR>System.DirectoryServices 
+<BR>Assembly Version: 1.0.5000.0 <BR>Win32 Version: 1.1.4322.573 <BR>CodeBase: 
+file:///c:/winnt/assembly/gac/system.directoryservices/1.0.5000.0__b03f5f7f11d50a3a/system.directoryservices.dll 
+<BR>---------------------------------------- <BR>System.Messaging <BR>Assembly 
+Version: 1.0.5000.0 <BR>Win32 Version: 1.1.4322.573 <BR>CodeBase: 
+file:///c:/winnt/assembly/gac/system.messaging/1.0.5000.0__b03f5f7f11d50a3a/system.messaging.dll 
+<BR>---------------------------------------- <BR>System.ServiceProcess 
+<BR>Assembly Version: 1.0.5000.0 <BR>Win32 Version: 1.1.4322.573 <BR>CodeBase: 
+file:///c:/winnt/assembly/gac/system.serviceprocess/1.0.5000.0__b03f5f7f11d50a3a/system.serviceprocess.dll 
+<BR>---------------------------------------- <BR>System.Data <BR>Assembly 
+Version: 1.0.5000.0 <BR>Win32 Version: 1.1.4322.573 <BR>CodeBase: 
+file:///c:/winnt/assembly/gac/system.data/1.0.5000.0__b77a5c561934e089/system.data.dll 
+<BR>---------------------------------------- <BR>EMS_Request <BR>Assembly 
+Version: 1.0.2147.23078 <BR>Win32 Version: 1.0.2147.23078 <BR>CodeBase: 
+file:///E:/EMS_Request.exe <BR>---------------------------------------- 
+<BR>System.Windows.Forms <BR>Assembly Version: 1.0.5000.0 <BR>Win32 Version: 
+1.1.4322.573 <BR>CodeBase: 
+file:///c:/winnt/assembly/gac/system.windows.forms/1.0.5000.0__b77a5c561934e089/system.windows.forms.dll 
+<BR>---------------------------------------- <BR>Microsoft.VisualBasic 
+<BR>Assembly Version: 7.0.5000.0 <BR>Win32 Version: 7.10.3052.4 <BR>CodeBase: 
+file:///c:/winnt/assembly/gac/microsoft.visualbasic/7.0.5000.0__b03f5f7f11d50a3a/microsoft.visualbasic.dll 
+<BR>---------------------------------------- </DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl27_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#500967">#</A> 
+<SPAN>re: My application works from my local machine, but throws a 
+SecurityException when I move it to a network share<A name=500967></A></SPAN> 
+</H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Wednesday, December 
+07, 2005 7:46 AM by <A 
+id=_ctl0____ctl0____ctl1___Comments___Comments__ctl27_NameLink title=Kalai 
+href="http://blogs.msdn.com/user/Profile.aspx?UserID=1001" 
+target=_blank>Kalai</A> </DIV>
+<DIV class=commentsbody>It's Really working..But i want the key as public.how to 
+use the created key as a public key to make use of the web to run in different 
+systems.i have a application in windows and importred to web page. its working 
+in local. </DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl28_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#505484">#</A> 
+<SPAN>re: My application works from my local machine, but throws a 
+SecurityException when I move it to a network share<A name=505484></A></SPAN> 
+</H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Monday, December 19, 
+2005 11:11 AM by <A 
+id=_ctl0____ctl0____ctl1___Comments___Comments__ctl28_NameLink title=Don 
+href="http://blogs.msdn.com/user/Profile.aspx?UserID=1001" target=_blank>Don</A> 
+</DIV>
+<DIV class=commentsbody>I have a C# app and C# class library (.NET 2003) 
+deployed on a network drive. Doesn't work because of a SecurityException that 
+occurs before Main () is called. The debugger says the following: <BR><BR>A 
+first chance exception of type 'System.Security.SecurityException' occurred in 
+mscorlib.dll <BR><BR>Additional information: Request for the permission of type 
+System.Security.Permissions.SecurityPermission, mscorlib, Version=1.0.5000.0, 
+Culture=neutral, PublicKeyToken=b77a5c561934e089 failed. <BR><BR>A first chance 
+exception of type 'System.Security.SecurityException' occurred in mscorlib.dll 
+<BR><BR>Additional information: Request for the permission of type 
+System.Security.Permissions.SecurityPermission, mscorlib, Version=1.0.5000.0, 
+Culture=neutral, PublicKeyToken=b77a5c561934e089 failed. <BR><BR>A first chance 
+exception of type 'System.Security.SecurityException' occurred in Unknown 
+Module. <BR><BR>Additional information: Request for the permission of type 
+System.Security.Permissions.SecurityPermission, mscorlib, Version=1.0.5000.0, 
+Culture=neutral, PublicKeyToken=b77a5c561934e089 failed. <BR><BR>A first chance 
+exception of type 'System.Security.SecurityException' occurred in Unknown 
+Module. <BR><BR>Additional information: Request for the permission of type 
+System.Security.Permissions.SecurityPermission, mscorlib, Version=1.0.5000.0, 
+Culture=neutral, PublicKeyToken=b77a5c561934e089 failed. <BR><BR>An unhandled 
+exception of type 'System.Security.SecurityException' occurred in Unknown 
+Module. <BR><BR>Additional information: Request for the permission of type 
+System.Security.Permissions.SecurityPermission, mscorlib, Version=1.0.5000.0, 
+Culture=neutral, PublicKeyToken=b77a5c561934e089 failed. <BR><BR><BR>Unhandled 
+Exception: System.Security.SecurityException: Request for the permission of type 
+System.Security.Permissions.SecurityPermission, mscorlib, Version=1.0.5000.0, 
+Culture=neutral, PublicKeyToken=b77a5c561934e089 failed. <BR>at 
+Senco.ScrapTrackerAdmin.ScrapTrackerAdmin.Main() <BR><BR>The state of the failed 
+permission was: <BR>&lt;IPermission 
+class="System.Security.Permissions.SecurityPermission, mscorlib, 
+Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" 
+<BR>version="1" <BR>Flags="UnmanagedCode"/&gt; <BR>The program '[3796] 
+ScrapTrackerAdmin.exe' has exited with code 0 (0x0). <BR>------------ <BR>I do 
+not have any unmanaged code in my app or my class library (no P/Invoke calls). 
+</DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl29_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#514205">#</A> 
+<SPAN>re: My application works from my local machine, but throws a 
+SecurityException when I move it to a network share<A name=514205></A></SPAN> 
+</H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Wednesday, January 18, 
+2006 3:30 AM by <A 
+id=_ctl0____ctl0____ctl1___Comments___Comments__ctl29_NameLink title=Ravi 
+href="http://blogs.msdn.com/user/Profile.aspx?UserID=1001" 
+target=_blank>Ravi</A> </DIV>
+<DIV class=commentsbody>I created a console application in .net 1.1 and strong 
+named it. This application references another .net assembly which is also strong 
+named. I want to run this application with limited trust level. By default, the 
+applications run from My Computer zone are assigned Full Trust permission set. 
+To limit the trust level, I created another code group using .net configuration 
+tool and the membership condition is specified as the public key of the assembly 
+(both console app and referenced assembly are signed with the same key). The new 
+code group is given ALL available permissions (unrestricted) (different from 
+“Full Trust” permission set). To ensure that the code does not get Full Trust 
+permission set when unioned with permission set assigned to My Computer zone, I 
+checked the “This policy level will only have the permissions from the 
+permission set associated with this code group” check box in the properties 
+dialog box of the code group I have created. <BR><BR>The console application 
+does nothing and just writes a string to the console. When I execute the 
+application, it works as expected. <BR><BR>Now I add some code in Main to 
+instantiate an object of the referenced assembly and invoke a method on the 
+object. The method doesn’t do anything and just returns a string. Now when I try 
+to run the application, it throws an exception even before getting into the Main 
+function “An unhandled exception of type 'System.Security.SecurityException' 
+occurred in Unknown Module. Additional information: Security error”. The problem 
+is resolved if I let the code run with “Full Trust” Permission set (either 
+through My Computer Zone or through custom code group). <BR><BR>Any clues as to 
+why this is happening and what is the solution for the problem? Thanks. </DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl30_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#514319">#</A> 
+<SPAN>re: My application works from my local machine, but throws a 
+SecurityException when I move it to a network share<A name=514319></A></SPAN> 
+</H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Wednesday, January 18, 
+2006 10:58 AM by <A 
+id=_ctl0____ctl0____ctl1___Comments___Comments__ctl30_NameLink title=shawnfa 
+target=_blank>shawnfa</A> </DIV>
+<DIV class=commentsbody>My guess is that you're hitting a LinkDemand for 
+FullTrust in your code. See <A 
+href="http://blogs.msdn.com/shawnfa/archive/2006/01/11/511716.aspx" target=_new 
+rel=nofollow>http://blogs.msdn.com/shawnfa/archive/2006/01/11/511716.aspx</A> 
+for more details. <BR><BR>-Shawn </DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl31_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#514330">#</A> 
+<SPAN>re: My application works from my local machine, but throws a 
+SecurityException when I move it to a network share<A name=514330></A></SPAN> 
+</H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Wednesday, January 18, 
+2006 11:18 AM by <A 
+id=_ctl0____ctl0____ctl1___Comments___Comments__ctl31_NameLink title="Tom Bryan" 
+href="http://blogs.msdn.com/user/Profile.aspx?UserID=1001" target=_blank>Tom 
+Bryan</A> </DIV>
+<DIV class=commentsbody>Great post. I used your method to sign my assembly and 
+had the framework trust my key and it works great!! Launches a smartclient from 
+portal. Now if we can just do something about the File Download - Security 
+Warning dialog box in XP SP2.... <BR><BR>-Tom </DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl32_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#516459">#</A> 
+<SPAN>re: My application works from my local machine, but throws a 
+SecurityException when I move it to a network share<A name=516459></A></SPAN> 
+</H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Monday, January 23, 
+2006 5:31 PM by <A 
+id=_ctl0____ctl0____ctl1___Comments___Comments__ctl32_NameLink title=Anthony 
+href="http://blogs.msdn.com/user/Profile.aspx?UserID=1001" 
+target=_blank>Anthony</A> </DIV>
+<DIV class=commentsbody>Thanks for the info this was the first article that gave 
+me an understaning of how the security framework actually works in .NET. 
+<BR><BR>The problem is that I continue to get the same security exception 
+problem. My situation is as follows: <BR><BR>Created a DLL and EXE. These worked 
+fine on local machines but on moving to a network drive experienced problems. 
+<BR><BR>Steps to resolve: <BR>1. Retested on local machine - worked fine. <BR>2. 
+Signed both DLL and EXE with same "strong name" key - did not work. <BR>3. 
+Created a new permission in the .net 1.1 configuration wizard - attempted to 
+import public key from assemblies (DLL and EXE) - Error was received that 
+"assembly does not appear to be valid" and thus could not import. <BR>4. Using 
+sn.exe printed out the public key and pasted it into the permissions in the 
+config wizard - did not work. <BR>5. Modified intranet permission to 'fulltrust' 
+for testing purposes - did not work. <BR>6. Modified all permissions in the 
+local machine to 'fulltrust' - did not work (reset all permissions) <BR>7. 
+Merged EXE and DLL into a single EXE - could still not import public key. 
+<BR><BR>The actual error I am experiencing is : 
+<BR><BR>"System.Security.SecurityException: Request for the permission of type 
+'System.Data.Odbc.OdbcPermission, System.Data, Version=2.0.0.0, Culture=neutral, 
+PublicKeyToken=b77a5c561934e089' failed." <BR><BR>I am using the .net 2.0 
+framework. Any help would be greatly appreciated </DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl33_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#526990">#</A> 
+<SPAN>How to configure .NET 2.0 ?<A name=526990></A></SPAN> </H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Tuesday, February 07, 
+2006 4:52 PM by <A 
+id=_ctl0____ctl0____ctl1___Comments___Comments__ctl33_NameLink title=dmitry 
+href="http://blogs.msdn.com/user/Profile.aspx?UserID=1001" 
+target=_blank>dmitry</A> </DIV>
+<DIV class=commentsbody>Expand the All_Code code group <BR>Right click the 
+LocalIntranet_Zone code group, and select properties <BR>Switch to the 
+Permission Set tab, and select FullTrust... <BR><BR>I can do it for .NET 1.1, 
+but there is no ".net configuration utility" in .NET 2.0. We installed .NET 
+framework 2.0 but didn't see any new shortcuts in control panel. <BR><BR>What 
+should I do to allow full trust in local intranet for 2.0 application? 
+<BR><BR>thanks </DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl34_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#527664">#</A> 
+<SPAN>re: My application works from my local machine, but throws a 
+SecurityException when I move it to a network share<A name=527664></A></SPAN> 
+</H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Wednesday, February 
+08, 2006 11:43 AM by <A 
+id=_ctl0____ctl0____ctl1___Comments___Comments__ctl34_NameLink title=shawnfa 
+href="http://blogs.msdn.com/utility/Redirect.aspx?U=http%3a%2f%2fblogs.msdn.com%2fshawnfa" 
+target=_blank>shawnfa</A> </DIV>
+<DIV class=commentsbody>Hi Dmitry, <BR><BR>The MMC snapin you're asking about 
+was moved to the SDK for v2.0. &nbsp;(See <A 
+href="http://blogs.msdn.com/shawnfa/archive/2006/02/08/527663.aspx" target=_new 
+rel=nofollow>http://blogs.msdn.com/shawnfa/archive/2006/02/08/527663.aspx</A>). 
+<BR><BR>-Shawn </DIV>
+<H4><A id=_ctl0____ctl0____ctl1___Comments___Comments__ctl35_PermaLink 
+title=permalink 
+href="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx#532118">#</A> 
+<SPAN>re: My application works from my local machine, but throws a 
+SecurityException when I move it to a network share<A name=532118></A></SPAN> 
+</H4>
+<DIV class=commentssubhead><SPAN class=commentspan></SPAN>Tuesday, February 14, 
+2006 5:42 PM by <A 
+id=_ctl0____ctl0____ctl1___Comments___Comments__ctl35_NameLink 
+title="Ryan Mrachek" 
+href="http://blogs.msdn.com/utility/Redirect.aspx?U=http%3a%2f%2fwww.nu.com%2c+www.cl-p.com%2c+www.wmeco.com%2c+www.psnh.com" 
+target=_blank rel=nofollow>Ryan Mrachek</A> </DIV>
+<DIV class=commentsbody>Just simple comment, I find it simpler to grant trusts 
+to Local intranet through the .Net cmd prompt. Its also easier to push to 
+clients, if you're not using gpo's. <BR><BR><BR>To grant FullTrust to the 
+LocalIntranet (1.2) simple type: <BR><BR>caspol -cg 1.2 FullTrust 
+<BR><BR></DIV></DIV>
+<DIV id=commentform>
+<H3>What do you think?</H3>
+<DL>
+  <DT><LABEL for=_ctl0____ctl0____ctl1___form___tbTitle>Title</LABEL> 
+  <EM>(required)</EM><SPAN 
+  id=_ctl0____ctl0____ctl1___form___Requiredfieldvalidator1 
+  style="VISIBILITY: hidden; COLOR: red" initialvalue="" 
+  evaluationfunction="RequiredFieldValidatorEvaluateIsValid" errormessage="*" 
+  controltovalidate="_ctl0____ctl0____ctl1___form___tbTitle">*</SPAN> 
+  <DD><INPUT class=smallbox id=_ctl0____ctl0____ctl1___form___tbTitle 
+  value="re: My application works from my local machine, but throws a SecurityException when I move it to a network share" 
+  name=_ctl0:_:_ctl0:_:_ctl1:_:form:_:tbTitle> 
+  <DT id=_ctl0____ctl0____ctl1___form___NameTitle><LABEL 
+  for=_ctl0____ctl0____ctl1___form___tbName>Name</LABEL> <EM>required</EM><SPAN 
+  id=_ctl0____ctl0____ctl1___form___Requiredfieldvalidator2 
+  style="VISIBILITY: hidden; COLOR: red" initialvalue="" 
+  evaluationfunction="RequiredFieldValidatorEvaluateIsValid" errormessage="*" 
+  controltovalidate="_ctl0____ctl0____ctl1___form___tbName">*</SPAN>
+  <DD id=_ctl0____ctl0____ctl1___form___NameDesc><INPUT class=smallbox 
+  id=_ctl0____ctl0____ctl1___form___tbName 
+  name=_ctl0:_:_ctl0:_:_ctl1:_:form:_:tbName> 
+  <DT><LABEL for=_ctl0____ctl0____ctl1___form___tbUrl>Your URL</LABEL> 
+  <DD><INPUT class=smallbox id=_ctl0____ctl0____ctl1___form___tbUrl 
+  name=_ctl0:_:_ctl0:_:_ctl1:_:form:_:tbUrl> 
+  <DT><LABEL for=_ctl0____ctl0____ctl1___form___tbComment>Comments</LABEL> 
+  <EM>(required)</EM><SPAN 
+  id=_ctl0____ctl0____ctl1___form___Requiredfieldvalidator3 
+  style="VISIBILITY: hidden; COLOR: red" initialvalue="" 
+  evaluationfunction="RequiredFieldValidatorEvaluateIsValid" errormessage="*" 
+  controltovalidate="_ctl0____ctl0____ctl1___form___tbComment">*</SPAN> 
+  <DD><TEXTAREA id=_ctl0____ctl0____ctl1___form___tbComment name=_ctl0:_:_ctl0:_:_ctl1:_:form:_:tbComment rows=5 cols=25></TEXTAREA> 
+
+  <DT><INPUT id=_ctl0____ctl0____ctl1___form___chkRemember type=checkbox 
+  name=_ctl0:_:_ctl0:_:_ctl1:_:form:_:chkRemember><LABEL 
+  for=_ctl0____ctl0____ctl1___form___chkRemember>Remember Me?</LABEL> 
+  <DT><INPUT language=javascript id=_ctl0____ctl0____ctl1___form___btnSubmit onclick="if (typeof(Page_ClientValidate) == 'function') Page_ClientValidate(); " type=submit value=Submit name=_ctl0:_:_ctl0:_:_ctl1:_:form:_:btnSubmit> 
+  </DT></DL></DIV></DIV>
+<DIV id=contentfooter>&nbsp;</DIV></DIV>
+<DIV id=footer></DIV></DIV></DIV>
+<SCRIPT language=javascript type=text/javascript>
+<!--
+	var Page_Validators =  new Array(document.all["_ctl0____ctl0____ctl1___form___Requiredfieldvalidator1"], document.all["_ctl0____ctl0____ctl1___form___Requiredfieldvalidator2"], document.all["_ctl0____ctl0____ctl1___form___Requiredfieldvalidator3"]);
+		// -->
+</SCRIPT>
+
+<SCRIPT language=javascript type=text/javascript>
+<!--
+function KeyDownHandler_ctl0____ctl0___BlogSideBar1___Singleweblogsearch1___SearchButton(event)
+{
+	if (event.keyCode == 13)
+	{
+		event.returnValue = false;
+		event.cancel = true;
+     __doPostBack('_ctl0:_:_ctl0:_:BlogSideBar1:_:Singleweblogsearch1:_:SearchButton','')	}
+}
+
+//-->
+</SCRIPT>
+<!--
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:dc="http://purl.org/dc/elements/1.1/"
+xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+<rdf:Description
+rdf:about="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx"
+dc:identifier="http://blogs.msdn.com/shawnfa/archive/2003/06/20/57023.aspx"
+dc:title="My application works from my local machine, but throws a SecurityException when I move it to a network share"
+trackback:ping="http://blogs.msdn.com/trackback.aspx?PostID=57023" />
+</rdf:RDF>
+-->
+<SCRIPT language=javascript type=text/javascript>
+<!--
+var Page_ValidationActive = false;
+if (typeof(clientInformation) != "undefined" && clientInformation.appName.indexOf("Explorer") != -1) {
+    if ((typeof(Page_ValidationVer) != "undefined") && (Page_ValidationVer == "125"))
+        ValidatorOnLoad();
+}
+
+function ValidatorOnSubmit() {
+    if (Page_ValidationActive) {
+        return ValidatorCommonOnSubmit();
+    }
+    return true;
+}
+// -->
+</SCRIPT>
+</FORM></BODY></HTML>

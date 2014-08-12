@@ -1,0 +1,30 @@
+Strong Key Trusted Application
+
+Programs that run on the CLR use something called code access security (CAS). CAS is different from traditional security systems in that it assigns trust to code rather than users. To do this, the security system gathers a set of evidence about every assembly it loads.  This evidence is then compared against the security policy, and a permission grant is generated. A good reference CAS can be found here: 
+ 
+http://msdn.microsoft.com/msdnmag/issues/01/02/CAS/default.aspx 
+ 
+One of the pieces of evidence that the security system gathers is the security zone that the code is running from. When you run the code from your local machine, this will be the MyComputer zone, but when you run it off of a server, or even a network share mapped to a drive on your machine, it will be the LocalIntranet zone. 
+
+By default any code that is run from the MyComputer zone will get a permission set of FullTrust (unrestricted permission to do anything it pleases). However, by default, there is a more restrictive permission set given to LocalIntranet assemblies. 
+
+There are three ways to make an application that works from the MyComputer zone work from the LocalIntranet zone. 
+
+Determine what permissions are being demanded that are causing your application to throw, and try to modify your application to not require these permissions any more. The SecurityException that is being thrown should tell you which demand 
+failed. 
+Give all the assemblies in your application a strong name, and modify the security policy to trust this strong name. (recommended) 
+Modify the security policy to fully trust the LocalIntranet zone. (generally a bad idea)
+
+Strong Key Trusted Application is a simple Visual Basic .NET form application that has been signed with the strong key contained in CodeUnit.snk
+
+Note: Assembly signed using CodeUnit.snk
+
+Created by Craig Lotter, February 2006
+
+*********************************
+
+Project Details:
+
+Coded in Visual Basic .NET using Visual Studio .NET 2003
+Implements concepts such as Security, Keys, Application Attributes
+Level of Complexity: simple
